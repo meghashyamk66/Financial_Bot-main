@@ -359,8 +359,8 @@ available_functions= {
 if 'messages' not in st.session_state:
     st.session_state['messages']= []
 
-if 'chat_history' not in st.session_state:
-  st.session_state['chat_history']= []
+if 'chat_hist' not in st.session_state:
+  st.session_state['chat_hist']= []
 
 st.title("Stock analysis Chatbot")
 st.write(css,unsafe_allow_html=True)
@@ -377,7 +377,7 @@ if user_input:
         
         #   st.session_state['messages'].append({'role':'user', 'content': f"{user_input} if the user has asked about a pecific company, use that company's information, else also use the following stocks in your calculations to make them more hollistic: Apple Inc, Meta Platforms Inc, Amazon.com Inc, NVIDIA Corporation, Alphabet Inc, PayPal Holdings Inc,  Qualcomm Inc,Starbucks Corporation, Cisco Systems Inc, Jaguar Health Inc, and Expedia Group Inc. "})
         # else:
-        st.session_state['chat_history'].append({'role': 'user', 'content': user_input})
+        st.session_state['chat_hist'].append({'role': 'user', 'content': user_input})
         st.session_state['messages'].append({'role':'user', 'content': f'{user_input} \n As an AI chatbot, answer the question asked above.'})
 
         response = client.chat.completions.create(
@@ -421,16 +421,16 @@ if user_input:
             )
 
             my_chat = st.text_area(label= "Answer: " , value = second_response.choices[0].message.content, height =100)
-            st.session_state['chat_history'].append({'role': 'bot', 'content':my_chat})
+            st.session_state['chat_hist'].append({'role': 'bot', 'content':my_chat})
             st.session_state['messages'].append({'role': "system", "content": "You are an expert stock market analyst.when asked for stock news, summary, or infrmation, give the price history. You have the following nasdaq companies American Airlines Group Inc, Apple Inc, AGNC Investment Corporation, Akanda Corporation, Advanced Micro Devices Inc, Amgen Inc, Amazon.com Inc, APA Corporation, Ardelyx Inc, Aurora Innovations Inc, AXT Inc, AstraZeneca PLC, Beneficient, Bitfarms Ltd, Bruush Oral Care Inc, Canaan Inc, Canopy Growth Corporation, CleanSpark Inc, Comcast Corporation, Coinbase Global Inc, Crown Electrokinetics Corporation, Cisco Systems Inc, CytomX Therapeutics Inc, CYNGN Inc, DraftKings Inc, Enovix Corporation, Ericsson, Expedia Group Inc, FuelCell Energy Inc, Faraday Future Intelligent Electric Inc, Fortinet Inc, Alphabet Inc, Alphabet Inc, Grab Holdings Ltd, Greenwave Technology Solutions Inc, Huntington Bancshares Inc, Healthcare Triangle Inc, MicroCloud Hologram Inc, Robinhood Markets Inc, Helius Medical Technologies Inc, Hertz Global Holdings Inc, IAC Inc, iShares Bitcoin Trust ETF, ImmunityBio Inc, Intel Corporation, iQiyi Inc, Inspire Veterinary Partners Inc, Jaguar Health Inc, JetBlue Airways Corporation, JD com Inc, Jeffs Brands Ltd, Luminar Technologies Inc, Lucid Group Inc, Li Auto Inc, Lyft Inc, Marathon Digital Holdings Inc, Meta Platforms Inc, Mobile health Network Solutions, Monster Beverage Corporation, Marvell Technology Inc, Microsoft Corporation, Micron Technology Inc, Nikola Corporation, Newellis Inc, NVIDIA Corporation, Pacific Biosciences of California Inc, Paramount Global, Plug Power Inc, Peloton Interactive Inc, PayPal Holdings Inc, QUALCOMM Inc, Sunrun Inc, Starbucks Corporation, Tesla Inc \n" 'assistant', 'content': second_response.choices[0].message.content})
         else:
             the_chat = st.text_area(label= "Answer: " , value = response_message.content, height =100)
-            st.session_state['chat_history'].append({'role': 'bot', 'content':the_chat})
+            st.session_state['chat_hist'].append({'role': 'bot', 'content':the_chat})
             st.session_state['messages'].append({'role': 'assistant', 'content': response_message.content})
     except Exception as e:
         raise(e)
     
-for i, message in enumerate(st.session_state.chat_history): 
+for i, message in enumerate(st.session_state.chat_hist): 
   if i % 2 == 0:
       st.write(user_template.replace("{{MSG}}",message['content']), unsafe_allow_html=True)
   else:

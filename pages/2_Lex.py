@@ -436,3 +436,4 @@ for i, message in enumerate(st.session_state.chat_hist):
   else:
       st.write(bot_template.replace(
           "{{MSG}}", message['content']), unsafe_allow_html=True)
+      
